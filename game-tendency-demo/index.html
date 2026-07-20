@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>게임 성향 테스트</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="app-shell">
+    <section class="hero">
+      <p class="eyebrow">FANGAMER POP-UP TEST</p>
+      <h1>당신은 어떤 방식으로<br />게임의 세계를 걷나요?</h1>
+      <p class="description">
+        몇 가지 선택을 통해 나의 게임 플레이 성향을 알아보세요.
+      </p>
+    </section>
+
+    <section class="card" id="start-screen">
+      <div class="card-icon">🎮</div>
+      <h2>게임 성향 테스트</h2>
+      <p>총 5개의 질문으로 구성되어 있으며, 약 1분 정도 소요됩니다.</p>
+      <button class="primary-button" id="start-button">테스트 시작하기</button>
+    </section>
+
+    <section class="card hidden" id="question-screen">
+      <div class="progress-wrap">
+        <span id="progress-text">1 / 5</span>
+        <div class="progress-bar">
+          <div class="progress-fill" id="progress-fill"></div>
+        </div>
+      </div>
+
+      <p class="question-label">QUESTION</p>
+      <h2 id="question-title"></h2>
+      <div class="answer-list" id="answer-list"></div>
+    </section>
+
+    <section class="card result-card hidden" id="result-screen">
+      <p class="question-label">YOUR TYPE</p>
+      <div class="result-emoji" id="result-emoji">🧭</div>
+      <h2 id="result-title"></h2>
+      <p class="result-summary" id="result-summary"></p>
+
+      <div class="keyword-box">
+        <span>PLAY KEYWORDS</span>
+        <div id="result-keywords" class="keyword-list"></div>
+      </div>
+
+      <div class="recommend-box">
+        <span>RECOMMENDED GAMES</span>
+        <ul id="result-games"></ul>
+      </div>
+
+      <button class="primary-button" id="restart-button">다시 테스트하기</button>
+    </section>
+  </main>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

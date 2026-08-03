@@ -83,9 +83,16 @@ function renderRadar(norm){
 function renderResult(){
   const ranking=rankedScores(), [primary]=ranking[0], [secondary]=ranking[1], key=comboKey(primary,secondary), combo=testData.combinations[key], norm=normalizedScores();
   $("result-player-name").textContent=`${playerName}님의 게임 동기 프로필`;
-  $("result-code").textContent=`${testData.dimensions[primary]} × ${testData.dimensions[secondary]} · ${combo.game}`;
+  $("primary-motivation-icon").src=`assets/icons/${primary}.svg`;
+  $("primary-motivation-icon").alt=`메인 성향 ${testData.dimensions[primary]} 아이콘`;
+  $("primary-motivation-name").textContent=`MAIN · ${testData.dimensions[primary]}`;
+  $("secondary-motivation-name").textContent=`SUB · ${testData.dimensions[secondary]}`;
+  $("result-code").textContent=`MAIN ${testData.dimensions[primary]} / SUB ${testData.dimensions[secondary]} · ${combo.game}`;
   $("result-title").textContent=combo.title;
-  $("matched-character").textContent=`MATCHED CHARACTER · ${combo.character}`;
+  $("matched-character").textContent=combo.character;
+  $("matched-character-image").src=combo.image;
+  $("matched-character-image").alt=`${combo.character} 매치 캐릭터 이미지`;
+  $("character-match-reason").textContent=combo.matchReason;
   $("result-summary").textContent=combo.description;
   $("top-motivation-copy").textContent=`${testData.dimensions[primary]} 성향과 ${testData.dimensions[secondary]} 성향이 가장 강하게 나타났습니다. ${testData.dimensionDescriptions[primary]}와 ${testData.dimensionDescriptions[secondary]}를 함께 추구하는 플레이어입니다.`;
   const kw=$("result-keywords");kw.innerHTML="";combo.keywords.forEach(x=>{const s=document.createElement("span");s.className="keyword";s.textContent=`#${x}`;kw.appendChild(s)});
@@ -115,39 +122,23 @@ function drawRadarCanvas(ctx,norm,cx,cy,r){
   const p=pts(vals);ctx.beginPath();p.forEach(([x,y],i)=>i?ctx.lineTo(x,y):ctx.moveTo(x,y));ctx.closePath();ctx.fillStyle="rgba(8,174,183,.22)";ctx.fill();ctx.strokeStyle="#08aeb7";ctx.lineWidth=6;ctx.stroke();
   dimensionOrder.forEach((k,i)=>{const a=-Math.PI/2+i*Math.PI/3,x=cx+Math.cos(a)*(r+68),y=cy+Math.sin(a)*(r+68);ctx.fillStyle="#063451";ctx.font="700 25px system-ui";ctx.textAlign="center";ctx.fillText(`${testData.dimensions[k]} ${norm[k]}`,x,y)});
 }
+async function loadCanvasImage(src){return await new Promise((resolve,reject)=>{const img=new Image();img.onload=()=>resolve(img);img.onerror=reject;img.src=src;});}
 async function createResultCanvas(){
   const {primary,secondary,combo,norm}=lastResultData;
-  const c=document.createElement("canvas");c.width=1080;c.height=1600;const ctx=c.getContext("2d");
+  const c=document.createElement("canvas");c.width=1080;c.height=1860;const ctx=c.getContext("2d");
   ctx.fillStyle="#fff35a";ctx.fillRect(0,0,c.width,c.height);
-
-  rr(ctx,54,50,972,1500,18,"#fffef1","#174d64");
-  ctx.fillStyle="#08aeb7";ctx.fillRect(54,50,972,74);
-  ctx.strokeStyle="#174d64";ctx.lineWidth=3;ctx.strokeRect(54,50,972,74);
-  ctx.fillStyle="#063451";ctx.textAlign="center";ctx.font="800 27px monospace";ctx.fillText("PLAYER STATUS: SAVE FILE 001",540,96);
-
-  ctx.textAlign="center";ctx.fillStyle="#6d8186";ctx.font="600 25px system-ui";ctx.fillText(`${playerName}님의 게임 동기 프로필`,540,170);
-
-  rr(ctx,105,210,870,690,14,"#fffef1","#174d64");
-  ctx.setLineDash([8,8]);ctx.strokeStyle="#08aeb7";ctx.lineWidth=2;ctx.strokeRect(125,230,830,650);ctx.setLineDash([]);
-  ctx.fillStyle="#08aeb7";ctx.font="800 25px system-ui";ctx.fillText("PLAYER PROFILE",540,275);
-  drawRadarCanvas(ctx,norm,540,510,205);
-  ctx.fillStyle="#08aeb7";ctx.font="800 22px monospace";ctx.fillText(`${testData.dimensions[primary]} × ${testData.dimensions[secondary]} · ${combo.game}`,540,780);
-  ctx.fillStyle="#063451";ctx.font="900 46px system-ui";wrap(ctx,combo.title,540,835,700,56,2);
-  ctx.fillStyle="#6d8186";ctx.font="700 23px system-ui";ctx.fillText(`MATCHED CHARACTER · ${combo.character}`,540,925);
-
-  ctx.textAlign="left";ctx.fillStyle="#063451";ctx.font="800 22px Georgia,serif";ctx.fillText("TOP MOTIVATIONS",105,985);
-  ctx.fillStyle="#5f747a";ctx.font="500 23px system-ui";wrap(ctx,combo.description,105,1035,870,36,4);
-
-  dimensionOrder.forEach((k,i)=>{
-    const col=i%2,row=Math.floor(i/2),x=105+col*455,y=1185+row*115;
-    ctx.fillStyle="#fffef1";ctx.fillRect(x,y,415,90);ctx.strokeStyle="#174d64";ctx.lineWidth=2;ctx.strokeRect(x,y,415,90);
-    ctx.fillStyle="#063451";ctx.font="italic 800 22px Georgia,serif";ctx.textAlign="left";ctx.fillText(testData.dimensions[k],x+18,y+30);
-    ctx.textAlign="right";ctx.font="700 18px monospace";ctx.fillText(norm[k],x+397,y+30);
-    rr(ctx,x+18,y+42,379,16,6,"#fffef1","#174d64");rr(ctx,x+22,y+46,(371*norm[k])/100,8,4,"#063451");
-    ctx.textAlign="left";ctx.fillStyle="#70848a";ctx.font="500 14px system-ui";ctx.fillText(testData.dimensionDescriptions[k],x+18,y+76);
-  });
-
-  ctx.textAlign="center";ctx.fillStyle="#063451";ctx.font="700 20px system-ui";ctx.fillText(combo.keywords.map(k=>`#${k}`).join("   "),540,1510);
-  return c;
+  rr(ctx,54,45,972,1770,18,"#fffef1","#174d64");ctx.fillStyle="#08aeb7";ctx.fillRect(54,45,972,74);ctx.strokeStyle="#174d64";ctx.lineWidth=3;ctx.strokeRect(54,45,972,74);
+  ctx.fillStyle="#063451";ctx.textAlign="center";ctx.font="800 27px monospace";ctx.fillText("PLAYER STATUS: SAVE FILE 001",540,92);ctx.fillStyle="#6d8186";ctx.font="600 25px system-ui";ctx.fillText(`${playerName}님의 게임 동기 프로필`,540,162);
+  rr(ctx,92,195,896,1510,14,"#fffef1","#174d64");ctx.setLineDash([8,8]);ctx.strokeStyle="#08aeb7";ctx.lineWidth=2;ctx.strokeRect(112,215,856,1470);ctx.setLineDash([]);ctx.fillStyle="#08aeb7";ctx.font="800 25px system-ui";ctx.fillText("PLAYER PROFILE",540,260);
+  const leftX=142,rightX=430,topY=300,leftW=250,rightW=508,topH=360,bottomY=690,bottomH=340;
+  [[leftX,topY,leftW,topH],[rightX,topY,rightW,topH],[leftX,bottomY,leftW,bottomH],[rightX,bottomY,rightW,bottomH]].forEach(v=>rr(ctx,...v,10,"#fffef1","#174d64"));
+  ctx.textAlign="left";ctx.fillStyle="#08aeb7";ctx.font="800 17px monospace";ctx.fillText("MAIN MOTIVATION",leftX+18,topY+32);ctx.fillText("PROFILE RESULT",rightX+18,topY+32);ctx.fillText("MATCHED CHARACTER",leftX+18,bottomY+32);ctx.fillText("WHY THIS CHARACTER?",rightX+18,bottomY+32);
+  try{const icon=await loadCanvasImage(`assets/icons/${primary}.svg`);ctx.drawImage(icon,leftX+55,topY+72,140,140);}catch(e){}
+  ctx.textAlign="center";ctx.fillStyle="#063451";ctx.font="900 29px system-ui";ctx.fillText(`MAIN · ${testData.dimensions[primary]}`,leftX+leftW/2,topY+255);ctx.fillStyle="#6d8186";ctx.font="700 22px system-ui";ctx.fillText(`SUB · ${testData.dimensions[secondary]}`,leftX+leftW/2,topY+300);
+  ctx.textAlign="left";ctx.fillStyle="#08aeb7";ctx.font="800 19px monospace";ctx.fillText(`MAIN ${testData.dimensions[primary]} / SUB ${testData.dimensions[secondary]}`,rightX+22,topY+78);ctx.fillStyle="#063451";ctx.font="900 42px system-ui";let y=wrap(ctx,combo.title,rightX+22,topY+135,rightW-44,50,2);ctx.fillStyle="#5f747a";ctx.font="500 22px system-ui";wrap(ctx,combo.description,rightX+22,y+18,rightW-44,34,5);
+  try{const ch=await loadCanvasImage(combo.image);ctx.drawImage(ch,leftX+38,bottomY+62,174,174);}catch(e){}
+  ctx.textAlign="center";ctx.fillStyle="#063451";ctx.font="900 29px system-ui";ctx.fillText(combo.character,leftX+leftW/2,bottomY+275);ctx.fillStyle="#6d8186";ctx.font="700 18px system-ui";ctx.fillText(combo.game,leftX+leftW/2,bottomY+310);
+  ctx.textAlign="left";ctx.fillStyle="#5f747a";ctx.font="500 23px system-ui";wrap(ctx,combo.matchReason,rightX+22,bottomY+82,rightW-44,38,7);
+  ctx.textAlign="center";ctx.fillStyle="#08aeb7";ctx.font="800 18px monospace";ctx.fillText("MOTIVATION HEXAGON",540,1088);drawRadarCanvas(ctx,norm,540,1330,220);ctx.fillStyle="#063451";ctx.font="700 20px system-ui";ctx.fillText(combo.keywords.map(k=>`#${k}`).join("   "),540,1615);return c;
 }
 $("save-image-button").addEventListener("click",async()=>{const b=$("save-image-button"),s=$("save-status");b.disabled=true;b.textContent="이미지 생성 중…";try{const c=await createResultCanvas(),blob=await new Promise(r=>c.toBlob(r,"image/png")),safe=playerName.replace(/[\\/:*?\"<>|]/g,"_"),name=`${safe}-플레이어-스테이터스.png`,file=new File([blob],name,{type:"image/png"});if(navigator.canShare&&navigator.canShare({files:[file]})){try{await navigator.share({title:`${playerName}님의 플레이어 스테이터스`,files:[file]});s.textContent="결과 이미지를 공유했습니다.";return}catch(e){if(e.name==="AbortError")return}}const u=URL.createObjectURL(blob),a=document.createElement("a");a.href=u;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(u),1000);s.textContent="PNG 결과 이미지를 저장했습니다."}catch(e){console.error(e);s.textContent="이미지를 생성하지 못했습니다."}finally{b.disabled=false;b.textContent="결과 이미지 저장하기"}});

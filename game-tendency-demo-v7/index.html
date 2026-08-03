@@ -79,13 +79,35 @@
         <div class="window-body status-body">
           <p class="result-player-name" id="result-player-name"></p>
           <div class="profile-box">
-            <p class="eyebrow centered">PLAYER PROFILE</p>
-            <svg id="radar-chart" class="radar-chart" viewBox="0 0 420 420" role="img" aria-label="6개 게임 동기 점수 육각형 차트"></svg>
-            <p class="result-code" id="result-code"></p>
-            <h2 id="result-title"></h2>
-            <p class="matched-character" id="matched-character"></p>
-            <p class="result-summary" id="result-summary"></p>
-            <div id="result-keywords" class="keyword-list"></div>
+            <p class="eyebrow centered profile-heading">PLAYER PROFILE</p>
+            <div class="profile-layout">
+              <div class="profile-main-icon-panel">
+                <span class="profile-panel-label">MAIN MOTIVATION</span>
+                <img id="primary-motivation-icon" class="primary-motivation-icon" src="" alt="주성향 아이콘" />
+                <strong id="primary-motivation-name"></strong>
+                <small id="secondary-motivation-name"></small>
+              </div>
+              <div class="profile-result-panel">
+                <span class="profile-panel-label">PROFILE RESULT</span>
+                <p class="result-code" id="result-code"></p>
+                <h2 id="result-title"></h2>
+                <p class="result-summary" id="result-summary"></p>
+                <div id="result-keywords" class="keyword-list"></div>
+              </div>
+              <div class="character-image-panel">
+                <span class="profile-panel-label">MATCHED CHARACTER</span>
+                <img id="matched-character-image" class="matched-character-image" src="" alt="매치 캐릭터 이미지" />
+                <strong id="matched-character"></strong>
+              </div>
+              <div class="character-reason-panel">
+                <span class="profile-panel-label">WHY THIS CHARACTER?</span>
+                <p id="character-match-reason"></p>
+              </div>
+            </div>
+            <div class="radar-panel">
+              <span class="profile-panel-label">MOTIVATION HEXAGON</span>
+              <svg id="radar-chart" class="radar-chart" viewBox="0 0 420 420" role="img" aria-label="6개 게임 동기 점수 육각형 차트"></svg>
+            </div>
           </div>
         </div>
       </div>

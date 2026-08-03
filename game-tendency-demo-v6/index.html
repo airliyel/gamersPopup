@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#fff35a" />
+  <title>Fangamer Pop-up × Yongame — Player Profile</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="site-topbar">
+    <span class="traffic"><i></i><i></i><i></i></span>
+    <span>연겜 × FANGAMER</span>
+    <span class="top-pixel">YONGAME</span>
+  </div>
+
+  <main class="app-shell">
+    <header class="window hero-window">
+      <div class="window-bar">
+        <span class="home-dot">◆</span>
+        <strong>FANGAMER POP-UP × YONGAME</strong>
+        <button type="button" aria-label="장식용 닫기 버튼">×</button>
+      </div>
+      <div class="window-body hero-copy">
+        <p class="eyebrow">PLAYER PROFILE</p>
+        <h1>당신은 게임의 세계를<br />어떻게 기억하나요?</h1>
+        <p>정답은 없습니다. 평소의 플레이에 가장 가까운 선택을 골라<br class="desktop-only" /> 나만의 게임 성향을 확인해 보세요.</p>
+      </div>
+    </header>
+
+    <section class="window save-window" id="start-screen">
+      <div class="folder-tab">SAVE FILE 001</div>
+      <div class="window-body save-body">
+        <div class="pixel-spark" aria-hidden="true">✦</div>
+        <p class="eyebrow centered">PLAYER PROFILE</p>
+        <h2>새로운 플레이어를 생성합니다.</h2>
+        <p class="muted centered">결과 카드에 표시할 닉네임을 입력해 주세요.</p>
+        <label for="nickname-input">PLAYER NAME</label>
+        <input id="nickname-input" type="text" maxlength="12" autocomplete="off" placeholder="닉네임 입력" />
+        <p class="input-message" id="input-message" aria-live="polite"></p>
+        <button class="primary-button" id="start-button" type="button">SAVE FILE 생성하기</button>
+        <small>입력한 닉네임은 기기에 저장되거나 서버로 전송되지 않습니다.</small>
+      </div>
+    </section>
+
+    <section class="question-wrap hidden" id="question-screen">
+      <div class="window question-window">
+        <div class="question-top">
+          <span id="progress-text">01/12</span>
+          <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+          <button class="back-button" id="back-button" type="button">◀ 이전 질문으로 돌아가기</button>
+        </div>
+        <div class="question-copy">
+          <p class="scene-label" id="question-label">BATTLE!</p>
+          <h2 id="question-title"></h2>
+          <p>가장 이상적인 답보다, 실제 플레이할 때의 모습에 가까운 쪽을 선택해 주세요.</p>
+        </div>
+      </div>
+      <div class="answer-list" id="answer-list"></div>
+    </section>
+
+    <section class="loading-screen hidden" id="loading-screen" aria-live="polite">
+      <div class="window loading-window">
+        <div class="folder-tab">PLAYER DATA LOADING</div>
+        <div class="window-body loading-body">
+          <div class="loading-spark">✦</div>
+          <p class="eyebrow centered">READING SAVE FILE 001</p>
+          <h2>당신의 모험을 정리하는 중입니다.</h2>
+          <p id="loading-text" class="loading-text">호넷에게 바느질을 배우는 중…</p>
+          <div class="loading-track"><i id="loading-fill"></i></div>
+          <p class="loading-percent" id="loading-percent">0%</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="result-section hidden" id="result-screen">
+      <div class="window status-window">
+        <div class="status-titlebar">PLAYER STATUS: SAVE FILE 001</div>
+        <div class="window-body status-body">
+          <p class="result-player-name" id="result-player-name"></p>
+          <div class="profile-box">
+            <p class="eyebrow centered">PLAYER PROFILE</p>
+            <svg id="radar-chart" class="radar-chart" viewBox="0 0 420 420" role="img" aria-label="6개 게임 동기 점수 육각형 차트"></svg>
+            <p class="result-code" id="result-code"></p>
+            <h2 id="result-title"></h2>
+            <p class="matched-character" id="matched-character"></p>
+            <p class="result-summary" id="result-summary"></p>
+            <div id="result-keywords" class="keyword-list"></div>
+          </div>
+        </div>
+      </div>
+
+      <h3 class="section-callout">새로운 플레이어를 생성합니다.</h3>
+      <div class="score-grid" id="score-grid"></div>
+
+      <div class="window motivations-window">
+        <div class="window-body">
+          <p class="motivation-label">✦ &nbsp; TOP MOTIVATIONS</p>
+          <p id="top-motivation-copy"></p>
+        </div>
+      </div>
+
+      <div class="result-actions">
+        <button class="primary-button" id="save-image-button" type="button">결과 이미지 저장하기</button>
+        <button class="secondary-button" id="restart-button" type="button">다시 테스트하기</button>
+      </div>
+      <p class="save-status" id="save-status" aria-live="polite"></p>
+    </section>
+  </main>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
